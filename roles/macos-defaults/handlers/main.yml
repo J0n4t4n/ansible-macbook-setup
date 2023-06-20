@@ -1,0 +1,6 @@
+---
+- name: Kill Dock
+  command: killall Dock
+
+- name: Kill Finder
+  command: killall Finder

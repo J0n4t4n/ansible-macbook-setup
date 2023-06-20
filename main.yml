@@ -1,0 +1,141 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+    mas_installed_apps:
+      - {id: 1569813296, name: "1Password for Safari"}
+      - {id: 937984704, name: "Amphetamine"}
+      - {id: 1541665460, name: "Codeshot"}
+      - {id: 1453273600, name: "Data Jar"}
+      - {id: 1435957248, name: "Drafts"}
+      - {id: 1099568401, name: "Home Assistant"}
+      - {id: 1295203466, name: "Microsoft Remote Desktop"}
+      - {id: 1425368544, name: "Timery"}
+      - {id: 1451685025, name: "WireGuard"}
+      - {id: 1606897889, name: "Consent-O-Matic"}
+      - {id: 899247664, name: "TestFlight"}
+      - {id: 975937182, name: "Fantastical"}
+
+    homebrew_installed_packages:
+      # Ansible
+      - ansible
+      - ansible-lint
+      - molecule
+      - yamllint
+
+      # AWS
+      - awscli
+      - terraform
+
+      # Docker
+      - docker-compose
+
+      # Kubernetes
+      - helm
+      - kompose
+      - krew
+      - kubectx
+      - kubernetes-cli
+      - kubeseal
+      - kustomize
+      - derailed/k9s/k9s
+      - devspace
+      - kubescape-cli
+      - skopeo
+
+      # Languages
+      - go
+      - python@3.10
+      - node
+
+      # YubiKey
+      - gnupg
+      - pinentry
+      - pinentry-mac
+
+      # Utilities
+      - argocd
+      - azure-cli
+      - bottom
+      - exa
+      - fzf
+      - git
+      - htop
+      - iperf3
+      - jq
+      - neovim
+      - plantuml
+      - telnet
+      - watch
+      - wget
+
+    homebrew_cask_apps:
+      - 1password
+      - 1password/tap/1password-cli
+      - aldente
+      - alfred
+      - bartender
+      - cyberduck
+      - drawio
+      - finicky
+      - google-chrome
+      - iterm2
+      - macs-fan-control
+      - microsoft-office-businesspro
+      - monitorcontrol
+      - obsidian
+      - openlens
+      - rancher
+      - rectangle
+      - scroll-reverser
+      - sensiblesidebuttons
+      - tunnelblick
+      - utm
+      - visual-studio-code
+
+    dockitems_remove:
+      - Launchpad
+      - Messages
+      - Maps
+      - Photos
+      - FaceTime
+      - Contacts
+      - Reminders
+      - Notes
+      - Freeform
+      - TV
+      - Music
+      - Keynote
+      - Numbers
+      - Pages
+      - 'App Store'
+      - 'System Settings'
+
+    dockitems_persist:
+      - name: Safari
+        path: "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/"
+        pos: 1
+      - name: Google Chrome
+        path: "/Applications/Google Chrome.app/"
+        pos: 2
+      - name: Mail
+        path: "/System/Applications/Mail.app/"
+        pos: 3
+      - name: Calendar
+        path: "/System/Applications/Calendar.app/"
+        pos: 4
+      - name: iTerm
+        path: "/Applications/iTerm.app/"
+        pos: 5
+      - name: Microsoft Teams
+        path: "/Applications/Microsoft Teams.app/"
+
+  roles:
+    - geerlingguy.mac.homebrew
+    - geerlingguy.mac.mas
+    - geerlingguy.mac.dock
+    #- dns
+    - gpg
+    - sudo-touchid
+    - macos-defaults

@@ -1,0 +1,3 @@
+---
+- name: Kill gpg-agent
+  command: pkill gpg-agent

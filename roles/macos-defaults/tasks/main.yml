@@ -1,0 +1,66 @@
+---
+- name: Move Dock to left side
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: orientation
+    type: string
+    value: left
+    state: present
+  notify:
+    - Kill Dock
+
+- name: Finder - Show all extensions
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: AppleShowAllExtensions
+    type: bool
+    value: true
+    state: present
+  notify:
+    - Kill Finder
+
+- name: Finder - Search in current folder
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FXDefaultSearchScope
+    type: string
+    value: SCcf
+    state: present
+  notify:
+    - Kill Finder
+
+- name: Finder - Don't warn on file extension change
+  community.general.osx_defaults:
+    domain: com.apple.finder
+    key: FXEnableExtensionChangeWarning
+    type: bool
+    value: false
+    state: present
+  notify:
+    - Kill Finder
+
+- name: Finder - Default save to Home
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: NSDocumentSaveNewDocumentsToCloud
+    type: bool
+    value: false
+    state: present
+
+- name: Don't auto-rearrange Spaces
+  community.general.osx_defaults:
+    domain: com.apple.dock
+    key: mru-spaces
+    type: bool
+    value: false
+    state: present
+  notify:
+    - Kill Dock
+
+- name: Repeat Keys on hold
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: ApplePressAndHoldEnabled
+    type: bool
+    value: false
+    state: present

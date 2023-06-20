@@ -1,0 +1,54 @@
+---
+- name: Fetch GPG public key
+  ansible.builtin.command:
+    cmd: gpg --receive-keys BBAE4CD3E2DA205654CBA8F7BE63A27135DE14E3
+  register: gpgfetch
+  changed_when: '"imported" in gpgfetch.stderr'
+
+- name: Load card status
+  ansible.builtin.command: gpg --card-status
+  register: gpgstatus
+  changed_when: false
+  failed_when: '"OpenPGP card not available" in gpgstatus.stderr'
+
+# https://www.nitrokey.com/documentation/applications#os:mac&a:ssh-for-server-administration
+- name: Configure gpg.conf
+  ansible.builtin.blockinfile:
+    path: ~/.gnupg/gpg.conf
+    create: yes
+    owner: jonatan
+    group: staff
+    mode: 0600
+    block: |
+      auto-key-retrieve
+      no-emit-version
+      use-agent
+      no-tty
+      default-key BBAE4CD3E2DA205654CBA8F7BE63A27135DE14E3
+  notify: Kill gpg-agent
+
+- name: Configure gpg-agent.conf
+  ansible.builtin.blockinfile:
+    path: ~/.gnupg/gpg-agent.conf
+    create: yes
+    owner: jonatan
+    group: staff
+    mode: 0600
+    block: |
+      default-cache-ttl 600
+      max-cache-ttl 7200
+      enable-ssh-support
+      pinentry-program /opt/homebrew/bin/pinentry-mac
+
+- name: Configure .zshrc
+  ansible.builtin.blockinfile:
+    path: ~/.zshrc.custom
+    create: yes
+    owner: jonatan
+    group: staff
+    mode: 0644
+    block: |
+      unset SSH_AGENT_PID
+      if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+        export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+      fi

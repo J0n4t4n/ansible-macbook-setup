@@ -1,0 +1,9 @@
+---
+- name: Example
+  ansible.builtin.copy:
+    src: example
+    dest: /etc/resolver/
+    owner: root
+    group: wheel
+    mode: 0644
+  become: true

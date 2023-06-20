@@ -1,0 +1,7 @@
+---
+- name: Enable TouchID for sudo commands
+  ansible.builtin.lineinfile:
+    insertafter: '# sudo: auth account password session\n'
+    path: /etc/pam.d/sudo
+    line: 'auth sufficient pam_tid.so'
+  become: true
