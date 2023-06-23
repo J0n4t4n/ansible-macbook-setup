@@ -66,6 +66,7 @@
       - jq
       - neovim
       - plantuml
+      - ripgrep
       - telnet
       - watch
       - wget
